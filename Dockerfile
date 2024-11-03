@@ -2,7 +2,8 @@
 FROM eclipse-temurin:20-jdk-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN ./gradlew build --no-daemon
+RUN ./gradlew clean && ./gradlew build --no-daemon --stacktrace -Dorg.gradle.jvmargs="-Xmx2048m"
+
 
 # Runtime stage
 FROM eclipse-temurin:20-jre-alpine
