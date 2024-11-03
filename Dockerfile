@@ -1,3 +1,9 @@
+# Build stage
+FROM eclipse-temurin:20-jdk-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN ./gradlew build --no-daemon
+
 # Runtime stage
 FROM eclipse-temurin:20-jre-alpine
 EXPOSE 8080
