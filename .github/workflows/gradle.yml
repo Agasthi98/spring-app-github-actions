@@ -74,12 +74,9 @@ jobs:
 
       - name: Create Tag
         run: |
-          git config --global user.name "Agasthi98" && \
-          git config --global user.email "sankalana98@gmail.com" && \
-          git tag ${{ env.tag }} && \
-          git push origin ${{ env.tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          echo "Creating tag..."
+          git tag ${{ env.tag }}
+          git push https://x-access-token:${{ secrets.TOKEN }}@github.com/Agasthi98/spring-app-github-actions.git ${{ env.tag }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
