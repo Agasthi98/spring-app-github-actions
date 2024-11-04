@@ -21,27 +21,27 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
+      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
-    - name: Grant execute permission for Gradlew
-      run: chmod +x ./gradlew
+      - name: Grant execute permission for Gradlew
+        run: chmod +x ./gradlew
 
-    - name: Build with Gradle Wrapper
-      run: ./gradlew clean build
+      - name: Build with Gradle Wrapper
+        run: ./gradlew clean build
 
-    - name: Build & push Docker image
-      uses: mr-smithers-excellent/docker-build-push@v6
-      with:
+      - name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
           image: sankalana98/springboot-github-actions-tutorial
           tags: latest
           registry: docker.io
@@ -57,21 +57,29 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-         java-version: '21'
-         distribution: 'temurin'
+          java-version: '21'
+          distribution: 'temurin'
 
-      - name: Grant execute permission for Gradlew
-        run: chmod +x ./gradlew
+      - name: Generate Version Tag
+        id: generate_tag
+        run: |
+          # Generate a unique tag based on current date-time or increment version
+          TAG="v$(date +'%Y%m%d%H%M%S')"
+          echo "tag=${TAG}" >> $GITHUB_ENV
 
-      - name: Build with Gradle Wrapper (if needed)
-        run: ./gradlew clean build
+      - name: Create Tag
+        run: |
+          git tag ${{ env.tag }}
+          git push origin ${{ env.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-         files: build/libs/*.jar
+          files: build/libs/*.jar
         env:
-         GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
