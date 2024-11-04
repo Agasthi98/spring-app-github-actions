@@ -55,10 +55,9 @@ jobs:
     permissions:
       contents: write  # Ensures write permission for pushing tags
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.TOKEN }}
-          persist-credentials: false  # Ensures no credential override
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -75,8 +74,10 @@ jobs:
       - name: Create Tag
         run: |
           echo "Creating tag..."
-          git tag ${{ env.tag }}
-          git push https://x-access-token:${{ secrets.TOKEN }}@github.com/Agasthi98/spring-app-github-actions.git ${{ env.tag }}
+          git tag ${{ env.tag }} 
+          git push origin ${{ env.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
