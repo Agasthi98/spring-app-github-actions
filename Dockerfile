@@ -2,5 +2,5 @@
 # Replace 'your-app-name.jar' with the actual JAR filename
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY build/libs/github-actions-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
