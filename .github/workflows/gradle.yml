@@ -53,41 +53,41 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/master'
     permissions:
-        contents: write  # Ensures write permission for pushing tags
+      contents: write  # Ensures write permission for pushing tags
     steps:
-        - uses: actions/checkout@v4
-          with:
-            token: ${{ secrets.TOKEN }}
-            persist-credentials: false  # Ensures no credential override
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN }}
+          persist-credentials: false  # Ensures no credential override
 
-        - name: Set up JDK 21
-          uses: actions/setup-java@v4
-          with:
-            java-version: '21'
-            distribution: 'temurin'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-        - name: Generate Version Tag
-          id: generate_tag
-          run: |
-            TAG="v$(date +'%Y%m%d%H%M%S')"
-            echo "tag=${TAG}" >> $GITHUB_ENV
+      - name: Generate Version Tag
+        id: generate_tag
+        run: |
+          TAG="v$(date +'%Y%m%d%H%M%S')"
+          echo "tag=${TAG}" >> $GITHUB_ENV
 
-        - name: Create Tag
-          run: |
-            git config user.name "Agasthi98"
-            git config user.email "sankalana98@gmail.com"
-            git tag ${{ env.tag }}
-            git push origin ${{ env.tag }}
-          env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: Create Tag
+        run: |
+          git config --global user.name "Agasthi98" && \
+          git config --global user.email "sankalana98@gmail.com" && \
+          git tag ${{ env.tag }} && \
+          git push origin ${{ env.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
-        - name: Create GitHub Release
-          uses: softprops/action-gh-release@v1
-          with:
-            files: build/libs/*.jar
-            tag_name: ${{ env.tag }}
-          env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/libs/*.jar
+          tag_name: ${{ env.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
