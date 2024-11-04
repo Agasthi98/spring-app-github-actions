@@ -57,6 +57,7 @@ jobs:
     steps:
         - uses: actions/checkout@v4
           with:
+            token: ${{ secrets.TOKEN }}
             persist-credentials: false  # Ensures no credential override
 
         - name: Set up JDK 21
