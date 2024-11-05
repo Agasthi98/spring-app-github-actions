@@ -66,7 +66,8 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-artifact  # Downloads the .jar file generated in the build stage
+          name: build-artifact
+          path: ./artifact  # Specify the directory where the artifact will be downloaded
 
       - name: Generate Version Tag
         id: generate_tag
@@ -85,7 +86,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/libs/*.jar  # This attaches the .jar file to the GitHub Release
+          files: ./artifact/*.jar  # Use the path where the artifact was downloaded
           tag_name: ${{ env.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
