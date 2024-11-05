@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: build/libs/*.jar
+          path: build/libs/*.jar  # Uploads the .jar file for use in the release stage
 
       - name: Build & Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v6
@@ -66,7 +66,7 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-artifact
+          name: build-artifact  # Downloads the .jar file generated in the build stage
 
       - name: Generate Version Tag
         id: generate_tag
@@ -85,7 +85,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/libs/*.jar
+          files: build/libs/*.jar  # This attaches the .jar file to the GitHub Release
           tag_name: ${{ env.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
