@@ -81,6 +81,12 @@ jobs:
           TAG="v-${APP_VERSION}"
 
           echo "tag=${TAG}" >> $GITHUB_ENV
+      - name: Create Tag
+        run: |
+         git tag ${{ env.tag }} 
+         git push origin ${{ env.tag }}
+        env:
+         GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
