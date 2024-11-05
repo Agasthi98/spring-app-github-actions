@@ -69,7 +69,7 @@ jobs:
         id: generate_tag
         run: |
           # Extract the version from application.properties
-          APP_VERSION=$(grep '^app.version=' application.properties | cut -d'=' -f2)
+          APP_VERSION=$(grep '^app.version=' src/main/resources/application.properties | cut -d'=' -f2)
 
           # Use the version from application.properties as the tag, or fallback to timestamp if not found
           TAG="v-${APP_VERSION}"
