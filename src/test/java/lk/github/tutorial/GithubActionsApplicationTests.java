@@ -1,4 +1,4 @@
-package lk.directpay.sampathvishwa.githubactions;
+package lk.github.tutorial;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

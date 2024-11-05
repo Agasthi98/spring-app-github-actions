@@ -1,4 +1,4 @@
-package lk.directpay.sampathvishwa.githubactions;
+package lk.github.tutorial;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
