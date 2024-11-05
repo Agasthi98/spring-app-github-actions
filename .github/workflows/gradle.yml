@@ -68,7 +68,12 @@ jobs:
       - name: Generate Version Tag
         id: generate_tag
         run: |
-          TAG="v$(date +'%Y%m%d%H%M%S')"
+          # Extract the version from application.properties
+          APP_VERSION=$(grep '^app.version=' application.properties | cut -d'=' -f2)
+
+          # Use the version from application.properties as the tag, or fallback to timestamp if not found
+          TAG="v-${APP_VERSION}"
+
           echo "tag=${TAG}" >> $GITHUB_ENV
 
       - name: Create Tag
